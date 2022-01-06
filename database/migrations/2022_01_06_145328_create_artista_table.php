@@ -19,6 +19,7 @@ class CreateArtistaTable extends Migration
             $table->string('descripcion');
             $table->integer('oyentes')->nullable();
             $table->integer('seguidores');
+            $table->binary('imagen');
         });
     }
 

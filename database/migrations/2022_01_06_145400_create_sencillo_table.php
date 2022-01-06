@@ -23,6 +23,7 @@ class CreateSencilloTable extends Migration
             $table->string('genero');
             $table->foreignId('idAlbum');
             $table->foreign('idAlbum')->references('id_album')->on('album')->onDelete("cascade");
+            $table->binary('imagen');
         });
     }
 

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\SencilloController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,3 +16,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Route::get('/sencillo', function () {
+//     return view('sencillo.index');
+// });
+
+// Route::get('/sencillo/create', [SencilloController::class, 'create']);
+
+Route::resource('sencillo', SencilloController::class);  //Crea todas las rutas automaticamente enlazandolas con las funciones que existen en el controlador
