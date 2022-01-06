@@ -1,3 +1,4 @@
+<a href="{{ url('sencillo/create')}}">Agregar un nuevo sencillo</a>
 <table class="table">
     <thead>
         <tr>

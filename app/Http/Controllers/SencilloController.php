@@ -97,7 +97,12 @@ class SencilloController extends Controller
      */
     public function destroy($id_sencillo)
     {
-        sencillo::destroy($id_sencillo);
+
+        $sencillo = Sencillo::findOrFail($id_sencillo);
+
+        if (Storage::delete('public/' . $sencillo->imagen)) {
+            sencillo::destroy($id_sencillo);
+        }
         return redirect('sencillo');
     }
 }

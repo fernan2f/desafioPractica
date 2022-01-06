@@ -16,10 +16,10 @@ class CreateArtistaSencilloTable extends Migration
         Schema::create('artista_sencillo', function (Blueprint $table) {
 
             $table->string('nombreArtista');
-            $table->foreign('nombreArtista')->references('nombre')->on('artista')->onDelete("cascade");
+            $table->foreign('nombreArtista')->references('nombre')->on('artista')->onDelete("cascade")->onUpdate("cascade");
 
             $table->foreignId('idSencillo');
-            $table->foreign('idSencillo')->references('id_sencillo')->on('sencillo')->onDelete("cascade");
+            $table->foreign('idSencillo')->references('id_sencillo')->on('sencillo')->onDelete("cascade")->onUpdate("cascade");
         });
     }
 
