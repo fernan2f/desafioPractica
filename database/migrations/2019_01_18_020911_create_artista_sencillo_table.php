@@ -1,0 +1,35 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateArtistaSencilloTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('artista_sencillo', function (Blueprint $table) {
+
+            $table->string('nombreArtista');
+            $table->foreign('nombreArtista')->references('nombre')->on('artista')->onDelete("cascade");
+
+            $table->foreignId('idSencillo');
+            $table->foreign('idSencillo')->references('id_sencillo')->on('sencillo')->onDelete("cascade");
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('artista_sencillo');
+    }
+}
