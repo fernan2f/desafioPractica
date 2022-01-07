@@ -15,7 +15,7 @@ class SencilloController extends Controller
      */
     public function index()
     {
-        $datos['sencillos'] = Sencillo::paginate(5);
+        $datos['sencillos'] = Sencillo::all();
         return view('sencillo.index', $datos);
     }
 
@@ -37,12 +37,28 @@ class SencilloController extends Controller
      */
     public function store(Request $request)
     {
+
+        $campos = [
+            'titulo' => 'required|string|max:100',
+            'fecha' => 'required|date',
+            'duracion' => 'required|integer|max:4',
+            'artista' => 'required|string|max:100',
+            'genero' => 'required|string|max:100',
+            'iamgen' => 'required|max:10000|mimes:jpeg,png,jpg'
+        ];
+        $mensaje = [
+            'required' => 'El :attribute es requerido',
+            'imagen.required' => 'La imagen es requerida'
+        ];
+
+        $this->validate($request, $campos, $mensaje);
         $datosSencillo = request()->except('_token');
         if ($request->hasFile('imagen')) {
             $datosSencillo['imagen'] = $request->file('imagen')->store('uploads', 'public');
         }
         Sencillo::insert($datosSencillo);
-        return response()->json($datosSencillo);
+        // return response()->json($datosSencillo);
+        return redirect('sencillo')->with('mensaje', 'Sencillo agregado correctamente.');
     }
 
     /**
@@ -86,7 +102,8 @@ class SencilloController extends Controller
         Sencillo::where('id_sencillo', '=', $id_sencillo)->update($datosSencillo);
 
         $sencillo = Sencillo::findOrFail($id_sencillo);
-        return view('sencillo.edit', compact('sencillo'));
+        // return view('sencillo.edit', compact('sencillo'));
+        return redirect('sencillo')->with('mensaje', 'Sencillo editado correctamente.');
     }
 
     /**
@@ -103,6 +120,6 @@ class SencilloController extends Controller
         if (Storage::delete('public/' . $sencillo->imagen)) {
             sencillo::destroy($id_sencillo);
         }
-        return redirect('sencillo');
+        return redirect('sencillo')->with('mensaje', 'Sencillo eliminado correctamente.');
     }
 }

@@ -14,7 +14,7 @@ use App\Http\Controllers\SencilloController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 // Route::get('/sencillo', function () {
@@ -23,4 +23,12 @@ Route::get('/', function () {
 
 // Route::get('/sencillo/create', [SencilloController::class, 'create']);
 
-Route::resource('sencillo', SencilloController::class);  //Crea todas las rutas automaticamente enlazandolas con las funciones que existen en el controlador
+Route::resource('sencillo', SencilloController::class)->middleware('auth');  //Crea todas las rutas automaticamente enlazandolas con las funciones que existen en el controlador
+//el ->->middleware('auth') no te deja entrar a nada relacionado a esta ruta si no estás logeado antes
+Auth::routes();
+
+Route::get('/home', [SencilloController::class, 'index'])->name('home');
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/', [SencilloController::class, 'index'])->name('home');
+});
