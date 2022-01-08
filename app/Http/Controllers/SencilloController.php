@@ -41,10 +41,10 @@ class SencilloController extends Controller
         $campos = [
             'titulo' => 'required|string|max:100',
             'fecha' => 'required|date',
-            'duracion' => 'required|integer|max:4',
+            'duracion' => 'required|integer|max:10000',
             'artista' => 'required|string|max:100',
             'genero' => 'required|string|max:100',
-            'iamgen' => 'required|max:10000|mimes:jpeg,png,jpg'
+            'imagen' => 'required|max:10000|mimes:jpeg,png,jpg'
         ];
         $mensaje = [
             'required' => 'El :attribute es requerido',

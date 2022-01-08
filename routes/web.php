@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SencilloController;
+use App\Http\Controllers\ArtistaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,7 +24,10 @@ Route::get('/', function () {
 
 // Route::get('/sencillo/create', [SencilloController::class, 'create']);
 
-Route::resource('sencillo', SencilloController::class)->middleware('auth');  //Crea todas las rutas automaticamente enlazandolas con las funciones que existen en el controlador
+Route::resource('sencillo', SencilloController::class);
+Route::resource('artista', ArtistaController::class);
+
+//Crea todas las rutas automaticamente enlazandolas con las funciones que existen en el controlador
 //el ->->middleware('auth') no te deja entrar a nada relacionado a esta ruta si no estás logeado antes
 Auth::routes();
 

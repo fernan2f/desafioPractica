@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\artista;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class ArtistaController extends Controller
 {
@@ -14,7 +16,8 @@ class ArtistaController extends Controller
      */
     public function index()
     {
-        //
+        $datos['artistas'] = Artista::all();
+        return view('artista.index', $datos);
     }
 
     /**
@@ -24,7 +27,7 @@ class ArtistaController extends Controller
      */
     public function create()
     {
-        //
+        return view('artista.create');
     }
 
     /**
@@ -35,7 +38,24 @@ class ArtistaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $campos = [
+            'nombre' => 'required|string|max:100',
+            'fecha_nac' => 'required|date',
+            'descripcion' => 'required|string|max:400',
+            'imagen' => 'required|max:10000|mimes:jpeg,png,jpg'
+        ];
+        $mensaje = [
+            'required' => 'El :attribute es requerido',
+            'imagen.required' => 'La imagen es requerida'
+        ];
+        $this->validate($request, $campos, $mensaje);
+        $datosArtista = request()->except('_token');
+        if ($request->hasFile('imagen')) {
+            $datosArtista['imagen'] = $request->file('imagen')->store('uploads', 'public');
+        }
+        Artista::insert($datosArtista);
+        return redirect('artista')->with('mensaje', 'Sencillo agregado correctamente.');
     }
 
     /**
@@ -55,9 +75,10 @@ class ArtistaController extends Controller
      * @param  \App\Models\artista  $artista
      * @return \Illuminate\Http\Response
      */
-    public function edit(artista $artista)
+    public function edit($nombre)
     {
-        //
+        $artista = Artista::findOrFail($nombre);
+        return view('artista.edit', compact('artista'));
     }
 
     /**
@@ -67,9 +88,19 @@ class ArtistaController extends Controller
      * @param  \App\Models\artista  $artista
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, artista $artista)
+    public function update(Request $request, $nombre)
     {
-        //
+        $datosArtista = request()->except('_token', '_method');
+        if ($request->hasFile('imagen')) {
+            $artista = artista::findOrFail($nombre);
+            Storage::delete('public/.$artista->imagen');
+            $datosArtista['imagen'] = $request->file('imagen')->store('uploads', 'public');
+        }
+        artista::where('nombre', '=', $nombre)->update($datosArtista);
+
+        $artista = artista::findOrFail($nombre);
+        // return view('artista.edit', compact('artista'));
+        return redirect('artista')->with('mensaje', 'artista editado correctamente.');
     }
 
     /**
@@ -78,8 +109,16 @@ class ArtistaController extends Controller
      * @param  \App\Models\artista  $artista
      * @return \Illuminate\Http\Response
      */
-    public function destroy(artista $artista)
+    public function destroy($nombre)
     {
-        //
+
+        $artista = artista::findOrFail($nombre);
+
+        if (Storage::delete('public/' . $artista->imagen)) {
+            artista::destroy($nombre);
+        }
+        // artista::destroy($nombre);
+
+        return redirect('artista')->with('mensaje', 'Artista eliminado correctamente.');
     }
 }

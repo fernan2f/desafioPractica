@@ -35,7 +35,7 @@
                     <img src="{{ asset('storage').'/'.$sencillo->imagen }}" alt="" width="100">
                 </td>
                 <td>
-                    <a href="{{url('/sencillo/'.$sencillo->id_sencillo.'/edit')}}" class="btn btn-primary">Editar</a>
+                    <a href="{{ url('/sencillo/'.$sencillo->id_sencillo.'/edit') }}" class="btn btn-primary my-1">Editar</a>
                     <form action="{{url('/sencillo/'.$sencillo->id_sencillo)}}" method="post">
                         @csrf
                         {{method_field('DELETE')}}
