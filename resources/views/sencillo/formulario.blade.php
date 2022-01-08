@@ -26,19 +26,13 @@
     <label for="" class="form-label">Duración</label>
     <input type="text" class="form-control bg-white" name="duracion" id="duracion" aria-describedby="helpId" placeholder="" value="{{ isset($sencillo->duracion)?$sencillo->duracion:'' }}">
 </div>
-<div class=" mb-3">
-    <label for="" class="form-label">Artista</label>
-    <input type="text" class="form-control bg-white" name="artista" id="artista" aria-describedby="helpId" placeholder="" value="{{ isset($sencillo->artista)?$sencillo->artista:'' }}">
-</div>
+
 <div class=" mb-3">
     <label for="" class="form-label">Genero</label>
     <input type="text" class="form-control bg-white" name="genero" id="genero" aria-describedby="helpId" placeholder="" value="{{ isset($sencillo->genero)?$sencillo->genero:'' }}">
 </div>
 
-<div class=" mb-3">
-    <label for="" class="form-label">Album</label>
-    <input type="text" class="form-control bg-white" name="idAlbum" id="idAlbum" aria-describedby="helpId" placeholder="" value="{{ isset($sencillo->idAlbum)?$sencillo->idAlbum:'' }}">
-</div>
+
 @if(isset($sencillo->imagen))
 <img src="{{ asset('storage').'/'.$sencillo->imagen }}" alt="" width="200" class="my-5">
 @endif

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\album;
+use App\Models\artista;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class AlbumController extends Controller
 {
@@ -14,7 +17,9 @@ class AlbumController extends Controller
      */
     public function index()
     {
-        //
+        $datos['albumes'] = album::all();
+
+        return view('album.index', $datos);
     }
 
     /**
@@ -24,7 +29,8 @@ class AlbumController extends Controller
      */
     public function create()
     {
-        //
+        $artistas = Artista::all();
+        return view('album.create', compact('artistas'));
     }
 
     /**
@@ -35,7 +41,23 @@ class AlbumController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $campos = [
+            'nombre' => 'required|string|max:100',
+            'fecha' => 'required|date',
+            'genero' => 'required|string|max:400',
+            'imagen' => 'required|max:10000|mimes:jpeg,png,jpg'
+        ];
+        $mensaje = [
+            'required' => 'El :attribute es requerido',
+            'imagen.required' => 'La imagen es requerida'
+        ];
+        $this->validate($request, $campos, $mensaje);
+        $datosAlbum = request()->except('_token');
+        if ($request->hasFile('imagen')) {
+            $datosAlbum['imagen'] = $request->file('imagen')->store('uploads', 'public');
+        }
+        Album::insert($datosAlbum);
+        return redirect('album')->with('mensaje', 'Sencillo agregado correctamente.');
     }
 
     /**
@@ -55,9 +77,11 @@ class AlbumController extends Controller
      * @param  \App\Models\album  $album
      * @return \Illuminate\Http\Response
      */
-    public function edit(album $album)
+    public function edit($id_album)
     {
-        //
+        $album = album::findOrFail($id_album);
+        $artistas = Artista::all();
+        return view('album.edit', compact('album', 'artistas'));
     }
 
     /**
@@ -67,9 +91,19 @@ class AlbumController extends Controller
      * @param  \App\Models\album  $album
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, album $album)
+    public function update(Request $request, $id_album)
     {
-        //
+        $datosAlbum = request()->except('_token', '_method');
+        if ($request->hasFile('imagen')) {
+            $album = album::findOrFail($id_album);
+            Storage::delete('public/.$album->imagen');
+            $datosAlbum['imagen'] = $request->file('imagen')->store('uploads', 'public');
+        }
+        album::where('id_album', '=', $id_album)->update($datosAlbum);
+
+        $album = album::findOrFail($id_album);
+        // return view('album.edit', compact('album'));
+        return redirect('album')->with('mensaje', 'album editado correctamente.');
     }
 
     /**
@@ -78,8 +112,13 @@ class AlbumController extends Controller
      * @param  \App\Models\album  $album
      * @return \Illuminate\Http\Response
      */
-    public function destroy(album $album)
+    public function destroy($id_album)
     {
-        //
+        $album = album::findOrFail($id_album);
+
+        if (Storage::delete('public/' . $album->imagen)) {
+            album::destroy($id_album);
+        }
+        return redirect('album')->with('mensaje', 'album eliminado correctamente.');
     }
 }

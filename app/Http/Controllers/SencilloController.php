@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\sencillo;
+use App\Models\album;
+use App\Models\artista;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -26,7 +29,10 @@ class SencilloController extends Controller
      */
     public function create()
     {
-        return view('sencillo.create');
+
+        $albumes = album::all();
+        $artistas = artista::all();
+        return view('sencillo.create', compact('albumes', 'artistas'));
     }
 
     /**
@@ -81,7 +87,9 @@ class SencilloController extends Controller
     public function edit($id_sencillo)
     {
         $sencillo = Sencillo::findOrFail($id_sencillo);
-        return view('sencillo.edit', compact('sencillo'));
+        $albumes = album::all();
+        $artistas = artista::all();
+        return view('sencillo.edit', compact('sencillo', 'albumes', 'artistas'));
     }
 
     /**

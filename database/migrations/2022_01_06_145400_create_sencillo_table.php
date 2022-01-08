@@ -21,7 +21,7 @@ class CreateSencilloTable extends Migration
             $table->integer('duracion');
             $table->string('artista');
             $table->string('genero');
-            $table->foreignId('idAlbum');
+            $table->foreignId('idAlbum')->nullable();
             $table->foreign('idAlbum')->references('id_album')->on('album')->onDelete("cascade")->onUpdate("cascade");
             $table->binary('imagen');
         });

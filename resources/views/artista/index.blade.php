@@ -29,7 +29,6 @@
                 <td>{{ $artista->seguidores }}</td>
                 <td>
                     <img src="{{ asset('storage').'/'.$artista->imagen }}" alt="" width="100">
-                    {{$artista->imagen}}
 
                 </td>
                 <td>

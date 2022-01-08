@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SencilloController;
 use App\Http\Controllers\ArtistaController;
+use App\Http\Controllers\AlbumController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,7 +28,7 @@ Route::get('/', function () {
 
 Route::resource('sencillo', SencilloController::class);
 Route::resource('artista', ArtistaController::class);
-
+Route::resource('album', AlbumController::class);
 //Crea todas las rutas automaticamente enlazandolas con las funciones que existen en el controlador
 //el ->->middleware('auth') no te deja entrar a nada relacionado a esta ruta si no estás logeado antes
 Auth::routes();

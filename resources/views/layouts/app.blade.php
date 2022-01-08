@@ -41,6 +41,9 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
+                            <a href="{{ url('album')}}" class="nav-link">Álbumes</a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ url('artista')}}" class="nav-link">Artistas</a>
                         </li>
                         <li class="nav-item">

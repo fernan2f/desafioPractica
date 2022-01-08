@@ -9,4 +9,7 @@ class album extends Model
 {
     use HasFactory;
     protected $table = 'album';
+    protected $primaryKey = 'id_album';
+    public $timestamps = false;
+    protected $fillable = ['requester', 'user_requested', 'status'];
 }
