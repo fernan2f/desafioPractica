@@ -22,6 +22,7 @@
                 @endforeach
             </select>
         </div>
+
         @include('sencillo.formulario',['modo'=>'Crear']);
     </form>
 </div>

@@ -19,6 +19,7 @@ class SencilloController extends Controller
     public function index()
     {
         $datos['sencillos'] = Sencillo::all();
+        $albumes = album::all();
         return view('sencillo.index', $datos);
     }
 
@@ -63,6 +64,8 @@ class SencilloController extends Controller
             $datosSencillo['imagen'] = $request->file('imagen')->store('uploads', 'public');
         }
         Sencillo::insert($datosSencillo);
+
+
         // return response()->json($datosSencillo);
         return redirect('sencillo')->with('mensaje', 'Sencillo agregado correctamente.');
     }

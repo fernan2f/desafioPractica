@@ -27,7 +27,13 @@
                 <td>{{ $album->id_album }}</td>
                 <td>{{ $album->nombre }}</td>
                 <td>{{ $album->cantidad }}</td>
-                <td>{{ $album->duracion }}</td>
+                <!-- {{$duracion = 0;}}
+                @foreach($sencillos as $sencillo)
+                @if(($album->id_album) === ($sencillo->idAlbum))
+                {{$duracion+=$sencillo->duracion}}
+                @endif
+                @endforeach -->
+                <td>{{$album->$duracion}}</td>
                 <td>{{ $album->fecha }}</td>
                 <td>{{ $album->artista }}</td>
                 <td>{{ $album->genero }}</td>

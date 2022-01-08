@@ -17,6 +17,7 @@
                 <th>Duración</th>
                 <th>Artista</th>
                 <th>Genero</th>
+                <th>Album</th>
                 <th>Imagen</th>
                 <th>Acciones</th>
             </tr>

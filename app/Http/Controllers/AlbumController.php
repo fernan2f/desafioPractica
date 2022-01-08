@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\album;
 use App\Models\artista;
+use App\Models\sencillo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -17,9 +18,9 @@ class AlbumController extends Controller
      */
     public function index()
     {
-        $datos['albumes'] = album::all();
-
-        return view('album.index', $datos);
+        $albumes = album::all();
+        $sencillos = sencillo::all();
+        return view('album.index', compact('albumes', 'sencillos'));
     }
 
     /**
