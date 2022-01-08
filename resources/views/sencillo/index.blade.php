@@ -16,7 +16,6 @@
                 <th>Reproducciones</th>
                 <th>Duración</th>
                 <th>Artista</th>
-                <th>Genero</th>
                 <th>Album</th>
                 <th>Imagen</th>
                 <th>Acciones</th>
@@ -31,7 +30,6 @@
                 <td>{{ $sencillo->reproducciones }}</td>
                 <td>{{ $sencillo->duracion }}</td>
                 <td>{{ $sencillo->artista }}</td>
-                <td>{{ $sencillo->genero }}</td>
                 <td>
                     <img src="{{ asset('storage').'/'.$sencillo->imagen }}" alt="" width="100">
                 </td>

@@ -20,7 +20,6 @@ class CreateAlbumTable extends Migration
             $table->integer('duracion');
             $table->date('fecha');
             $table->string('artista');
-            $table->string('genero');
             $table->binary('imagen');
         });
     }

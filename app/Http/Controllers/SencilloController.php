@@ -51,7 +51,6 @@ class SencilloController extends Controller
             'fecha' => 'required|date',
             'duracion' => 'required|integer|max:10000',
             'artista' => 'required|string|max:100',
-            'genero' => 'required|string|max:100',
             'imagen' => 'required|max:10000|mimes:jpeg,png,jpg'
         ];
         $mensaje = [

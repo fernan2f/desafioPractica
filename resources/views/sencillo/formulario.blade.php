@@ -27,10 +27,6 @@
     <input type="text" class="form-control bg-white" name="duracion" id="duracion" aria-describedby="helpId" placeholder="" value="{{ isset($sencillo->duracion)?$sencillo->duracion:'' }}">
 </div>
 
-<div class=" mb-3">
-    <label for="" class="form-label">Genero</label>
-    <input type="text" class="form-control bg-white" name="genero" id="genero" aria-describedby="helpId" placeholder="" value="{{ isset($sencillo->genero)?$sencillo->genero:'' }}">
-</div>
 
 
 @if(isset($sencillo->imagen))

@@ -16,7 +16,6 @@
                 <th>Duracion</th>
                 <th>Fecha</th>
                 <th>Artista</th>
-                <th>Genero</th>
                 <th>Imagen</th>
                 <th>Acciones</th>
             </tr>
@@ -28,10 +27,9 @@
                 <td>{{ $album->nombre }}</td>
                 <td>{{ $album->cantidad }}</td>
 
-                <td>{{$album->duracion}}</td>
+                <td>{{$album->duracion/60}}</td>
                 <td>{{ $album->fecha }}</td>
                 <td>{{ $album->artista }}</td>
-                <td>{{ $album->genero }}</td>
                 <td>
                     <img src="{{ asset('storage').'/'.$album->imagen }}" alt="" width="100">
 

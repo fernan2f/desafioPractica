@@ -45,7 +45,6 @@ class AlbumController extends Controller
         $campos = [
             'nombre' => 'required|string|max:100',
             'fecha' => 'required|date',
-            'genero' => 'required|string|max:400',
             'imagen' => 'required|max:10000|mimes:jpeg,png,jpg'
         ];
         $mensaje = [
