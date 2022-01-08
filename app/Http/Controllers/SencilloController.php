@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Models\sencillo;
 use App\Models\album;
 use App\Models\artista;
@@ -63,6 +64,11 @@ class SencilloController extends Controller
         if ($request->hasFile('imagen')) {
             $datosSencillo['imagen'] = $request->file('imagen')->store('uploads', 'public');
         }
+        // $albumcito = DB::table('album')->increment('duracion', 1500)->where('id_album', $datosSencillo['idAlbum']);
+        $albumcito =
+            DB::table('album')
+            ->where('id_album', $datosSencillo['idAlbum'])
+            ->increment('duracion', $datosSencillo['duracion']);
         Sencillo::insert($datosSencillo);
 
 
@@ -131,6 +137,10 @@ class SencilloController extends Controller
         if (Storage::delete('public/' . $sencillo->imagen)) {
             sencillo::destroy($id_sencillo);
         }
+        $albumcito =
+            DB::table('album')
+            ->where('id_album', $sencillo['idAlbum'])
+            ->decrement('duracion', $sencillo['duracion']);
         return redirect('sencillo')->with('mensaje', 'Sencillo eliminado correctamente.');
     }
 }
