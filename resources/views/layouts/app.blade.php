@@ -49,6 +49,9 @@
                         <li class="nav-item">
                             <a href="{{ url('sencillo')}}" class="nav-link">Sencillos</a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ url('genero')}}" class="nav-link">Genero</a>
+                        </li>
                         <!-- Authentication Links -->
                         @guest
                         @if (Route::has('login'))
