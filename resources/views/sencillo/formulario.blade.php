@@ -29,6 +29,7 @@
 
 
 
+
 @if(isset($sencillo->imagen))
 <img src="{{ asset('storage').'/'.$sencillo->imagen }}" alt="" width="200" class="my-5">
 @endif

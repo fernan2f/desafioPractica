@@ -55,7 +55,7 @@ class ArtistaController extends Controller
             $datosArtista['imagen'] = $request->file('imagen')->store('uploads', 'public');
         }
         Artista::insert($datosArtista);
-        return redirect('artista')->with('mensaje', 'Sencillo agregado correctamente.');
+        return redirect('artista')->with('mensaje', 'Artista agregado correctamente.');
     }
 
     /**

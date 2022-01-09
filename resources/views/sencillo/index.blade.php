@@ -29,6 +29,7 @@
                 <td>{{ $sencillo->fecha }}</td>
                 <td>{{ $sencillo->reproducciones }}</td>
                 <td>{{ $sencillo->duracion }}</td>
+                <td>{{ $sencillo->idAlbum }}</td>
                 <td>{{ $sencillo->artista }}</td>
                 <td>
                     <img src="{{ asset('storage').'/'.$sencillo->imagen }}" alt="" width="100">

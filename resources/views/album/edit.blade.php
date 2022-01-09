@@ -8,9 +8,18 @@
         <div class="mb-3">
             <label class="form-label fw-bolder ">Artista:</label>
             <select class="form-select form-control bg-white" name="artista" required>
-                <option value="{{ $album['artista'] }}" disabled selected>{{$album['artista']}}</option>
+                <option value="{{ $album['artista'] }}" selected>{{$album['artista']}}</option>
                 @foreach ($artistas as $artista)
                 <option value="{{$artista['nombre']}}" required>{{ $artista['nombre'] }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label fw-bolder ">Género:</label>
+            <select class="form-select form-control bg-white" name="genero" required>
+                <option value="" selected>Seleccione el genero</option>
+                @foreach ($generos as $genero)
+                <option value="{{ $genero['nombre']}}" required>{{ $genero['nombre'] }}</option>
                 @endforeach
             </select>
         </div>

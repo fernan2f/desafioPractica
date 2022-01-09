@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Models\album;
 use App\Models\artista;
 use App\Models\sencillo;
+use App\Models\genero;
+use App\Models\album_genero;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -31,7 +35,8 @@ class AlbumController extends Controller
     public function create()
     {
         $artistas = Artista::all();
-        return view('album.create', compact('artistas'));
+        $generos = genero::all();
+        return view('album.create', compact('artistas', 'generos'));
     }
 
     /**
@@ -52,12 +57,25 @@ class AlbumController extends Controller
             'imagen.required' => 'La imagen es requerida'
         ];
         $this->validate($request, $campos, $mensaje);
-        $datosAlbum = request()->except('_token');
+        $datosAlbum = request()->except('_token', 'genero');
+        $generoSencillo = request();
+        $artistaSencillo = request();
+
         if ($request->hasFile('imagen')) {
             $datosAlbum['imagen'] = $request->file('imagen')->store('uploads', 'public');
         }
+
         Album::insert($datosAlbum);
-        return redirect('album')->with('mensaje', 'Sencillo agregado correctamente.');
+        $ultimoIndex = DB::getPdo()->lastInsertId();
+        DB::table('album_genero')->insert([
+            'nombreGenero' => $generoSencillo['genero'],
+            'idAlbum' => $ultimoIndex
+        ]);
+        DB::table('artista_album')->insert([
+            'nombreArtista' => $artistaSencillo['artista'],
+            'idAlbum' => $ultimoIndex
+        ]);
+        return redirect('album')->with('mensaje', 'Album agregado correctamente.');
     }
 
     /**
@@ -81,7 +99,9 @@ class AlbumController extends Controller
     {
         $album = album::findOrFail($id_album);
         $artistas = Artista::all();
-        return view('album.edit', compact('album', 'artistas'));
+        $generos = genero::all();
+
+        return view('album.edit', compact('album', 'artistas', 'generos'));
     }
 
     /**
@@ -94,12 +114,38 @@ class AlbumController extends Controller
     public function update(Request $request, $id_album)
     {
         $datosAlbum = request()->except('_token', '_method');
+        $generoAlbum = request();
+        $artistaSencillo = request();
+
         if ($request->hasFile('imagen')) {
             $album = album::findOrFail($id_album);
             Storage::delete('public/.$album->imagen');
             $datosAlbum['imagen'] = $request->file('imagen')->store('uploads', 'public');
         }
-        album::where('id_album', '=', $id_album)->update($datosAlbum);
+        album::destroy($id_album);
+        album_genero::destroy($id_album);
+
+
+        DB::table('album')->insert([
+            'id_album' => $id_album,
+            'nombre' => $datosAlbum['nombre'],
+            'cantidad' => $datosAlbum['cantidad'],
+            'duracion' => $datosAlbum['duracion'],
+            'fecha' => $datosAlbum['fecha'],
+            'artista' => $datosAlbum['artista'],
+            'imagen' => $datosAlbum['imagen']
+        ]);
+        $ultimoIndex = DB::getPdo()->lastInsertId();
+
+        DB::table('album_genero')->insert([
+            'nombreGenero' => $generoAlbum['genero'],
+            'idAlbum' => $ultimoIndex
+        ]);
+        DB::table('artista_album')->insert([
+            'nombreArtista' => $artistaSencillo['artista'],
+            'idAlbum' => $ultimoIndex
+        ]);
+        // album::where('id_album', '=', $id_album)->update($datosAlbum);
 
         $album = album::findOrFail($id_album);
         // return view('album.edit', compact('album'));
@@ -119,6 +165,8 @@ class AlbumController extends Controller
         if (Storage::delete('public/' . $album->imagen)) {
             album::destroy($id_album);
         }
+        // album_genero::destroy($id_album);
+
         return redirect('album')->with('mensaje', 'album eliminado correctamente.');
     }
 }

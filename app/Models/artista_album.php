@@ -9,4 +9,6 @@ class artista_album extends Model
 {
     use HasFactory;
     protected $table = 'artista_album';
+    protected $primaryKey = 'idAlbum';
+    public $incrementing = false;
 }

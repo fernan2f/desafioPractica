@@ -18,8 +18,8 @@
     <input type="text" class="form-control bg-white " name="nombre" id="nombre" aria-describedby="helpId" placeholder="" value="{{ isset($album->nombre)?$album->fecha:'' }}">
 </div>
 <div class=" mb-3">
-    <label for="" class="form-label">Cantidad</label>
-    <input type="text" class="form-control bg-white" name="cantidad" id="cantidad" aria-describedby="helpId" placeholder="" value="{{ isset($album->cantidad)?$album->cantidad:'' }}">
+    <!-- <label for="" class="form-label">Cantidad</label> -->
+    <input type="text" hidden class="form-control bg-white" name="cantidad" id="cantidad" aria-describedby="helpId" placeholder="" value="0">
 </div>
 <div class=" mb-3">
     <!-- <label for="" class="form-label">Duración</label> -->

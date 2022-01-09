@@ -22,6 +22,15 @@
                 @endforeach
             </select>
         </div>
+        <div class="mb-3">
+            <label class="form-label fw-bolder ">Género:</label>
+            <select class="form-select form-control bg-white" name="genero" required>
+                <option value="" disabled selected>Seleccione un género</option>
+                @foreach ($generos as $genero)
+                <option value="{{ $genero['nombre']}}" required>{{ $genero['nombre'] }}</option>
+                @endforeach
+            </select>
+        </div>
 
         @include('sencillo.formulario',['modo'=>'Crear']);
     </form>
