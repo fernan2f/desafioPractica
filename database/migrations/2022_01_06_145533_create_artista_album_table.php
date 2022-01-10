@@ -15,8 +15,8 @@ class CreateArtistaAlbumTable extends Migration
     {
         Schema::create('artista_album', function (Blueprint $table) {
 
-            $table->string('nombreArtista');
-            $table->foreign('nombreArtista')->references('nombre')->on('artista')->onDelete("cascade")->onUpdate("cascade");
+            $table->foreignId('idArtista');
+            $table->foreign('idArtista')->references('id_artista')->on('artista')->onDelete("cascade")->onUpdate("cascade");
 
             $table->foreignId('idAlbum');
             $table->foreign('idAlbum')->references('id_album')->on('album')->onDelete("cascade")->onUpdate("cascade");

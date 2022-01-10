@@ -9,7 +9,6 @@ use App\Models\artista;
 use App\Models\genero;
 use App\Models\sencillo_genero;
 
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -22,9 +21,9 @@ class SencilloController extends Controller
      */
     public function index()
     {
-        $datos['sencillos'] = Sencillo::all();
+        $sencillos = Sencillo::all();
         $albumes = album::all();
-        return view('sencillo.index', $datos);
+        return view('sencillo.index', compact('sencillos', 'albumes'));
     }
 
     /**
@@ -64,37 +63,56 @@ class SencilloController extends Controller
         ];
 
         $this->validate($request, $campos, $mensaje);
-        $datosSencillo = request()->except('_token', 'genero');
         $generoSencillo = request();
+
+        $datosSencillo = request()->except('_token', 'genero', 'select_question');
+        $aux = $generoSencillo->select_question;
+        $array = [];
+        $contador = 0;
+        foreach ($aux as $auxiliar) {
+            $array[$contador] = $auxiliar;
+            $contador++;
+        }
+        // return response()->json();
+
+
         $artistaSencillo = request()->all();
         if ($request->hasFile('imagen')) {
             $datosSencillo['imagen'] = $request->file('imagen')->store('uploads', 'public');
         }
+
         // $albumcito = DB::table('album')->increment('duracion', 1500)->where('id_album', $datosSencillo['idAlbum']);
         $albumcito =
             DB::table('album')
             ->where('id_album', $datosSencillo['idAlbum'])
             ->increment('duracion', $datosSencillo['duracion']);
-
         DB::table('album')
             ->where('id_album', $datosSencillo['idAlbum'])
             ->increment('cantidad', 1);
+
         Sencillo::insert($datosSencillo);
+
         $lastIndex = DB::getPdo()->lastInsertId();
-        DB::table('sencillo_genero')->insert([
-            'nombreGenero' => $generoSencillo['genero'],
-            'idSencillo' => $lastIndex
-        ]);
+        for ($i = 0; $i < sizeof($array); $i++) {
+            $idGenero = genero::select('id_genero')->where('nombre', $array[$i])->get();
+            DB::table('sencillo_genero')->insert([
+                'idGenero' => $idGenero[0]['id_genero'],
+                'idSencillo' => $lastIndex
+            ]);
+        }
+
+        $idArtista = artista::select('id_artista')->where('nombre', $artistaSencillo['artista'])->get();
         DB::table('artista_sencillo')->insert([
-            'nombreArtista' => $artistaSencillo['artista'],
+            'idArtista' => $idArtista[0]['id_artista'],
             'idSencillo' => $lastIndex
         ]);
 
 
 
 
-        return response()->json($artistaSencillo);
-        // return redirect('sencillo')->with('mensaje', 'Sencillo agregado correctamente.');
+
+        // return response()->json($artistaSencillo);
+        return redirect('sencillo')->with('mensaje', 'Sencillo agregado correctamente.');
     }
 
     /**
@@ -120,7 +138,17 @@ class SencilloController extends Controller
         $albumes = album::all();
         $artistas = artista::all();
         $generos = genero::all();
-        return view('sencillo.edit', compact('sencillo', 'albumes', 'artistas', 'generos'));
+        $sencillo_generos = sencillo_genero::all();
+        $generosRelacion = [];
+        $i = 0;
+        foreach ($sencillo_generos as $sencillo_genero) {
+            if ($sencillo_genero['idSencillo'] == $id_sencillo) {
+                $generosRelacion[$i] = $sencillo_genero->idGenero;
+                $i++;
+            }
+        }
+
+        return view('sencillo.edit', compact('sencillo', 'albumes', 'artistas', 'generos', 'generosRelacion'));
     }
 
     /**
@@ -135,7 +163,13 @@ class SencilloController extends Controller
         $datosSencillo = request()->except('_token', '_method', 'genero');
         $generoSencillo = request();
         $artistaSencillo = request();
-
+        $aux = $generoSencillo->select_question;
+        $array = [];
+        $contador = 0;
+        foreach ($aux as $auxiliar) {
+            $array[$contador] = $auxiliar;
+            $contador++;
+        }
 
 
         // Sencillo::where('id_sencillo', '=', $id_sencillo)->update($datosSencillo);
@@ -176,12 +210,17 @@ class SencilloController extends Controller
             'imagen' => $datosSencillo['imagen']
         ]);
         $lastIndex = DB::getPdo()->lastInsertId();
-        DB::table('sencillo_genero')->insert([
-            'nombreGenero' => $generoSencillo['genero'],
-            'idSencillo' => $lastIndex
-        ]);
+        for ($i = 0; $i < sizeof($array); $i++) {
+            $idGenero = genero::select('id_genero')->where('nombre', $array[$i])->get();
+            DB::table('sencillo_genero')->insert([
+                'idGenero' => $idGenero[0]['id_genero'],
+                'idSencillo' => $lastIndex
+            ]);
+        }
+
+        $idArtista = artista::select('id_artista')->where('nombre', $artistaSencillo['artista'])->get();
         DB::table('artista_sencillo')->insert([
-            'nombreArtista' => $artistaSencillo['artista'],
+            'idArtista' => $idArtista[0]['id_artista'],
             'idSencillo' => $lastIndex
         ]);
 

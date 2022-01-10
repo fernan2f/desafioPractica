@@ -50,7 +50,7 @@
                             <a href="{{ url('sencillo')}}" class="nav-link">Sencillos</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('genero')}}" class="nav-link">Genero</a>
+                            <a href="{{ url('genero')}}" class="nav-link">Género</a>
                         </li>
                         <!-- Authentication Links -->
                         @guest

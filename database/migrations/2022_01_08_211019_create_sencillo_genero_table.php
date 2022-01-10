@@ -14,8 +14,8 @@ class CreateSencilloGeneroTable extends Migration
     public function up()
     {
         Schema::create('sencillo_genero', function (Blueprint $table) {
-            $table->string('nombreGenero');
-            $table->foreign('nombreGenero')->references('nombre')->on('genero')->onDelete("cascade")->onUpdate("cascade");
+            $table->foreignId('idGenero');
+            $table->foreign('idGenero')->references('id_genero')->on('genero')->onDelete("cascade")->onUpdate("cascade");
 
             $table->foreignId('idSencillo');
             $table->foreign('idSencillo')->references('id_sencillo')->on('sencillo')->onDelete("cascade")->onUpdate("cascade");

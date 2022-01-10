@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <a href="{{ url('genero/create')}}" class="btn btn-secondary">Agregar un nuevo genero</a>
+    <a href="{{ url('genero/create')}}" class="btn btn-secondary">Agregar un nuevo género</a>
 
     @if(Session::has('mensaje'))
     {{ Session::get('mensaje')}}

@@ -26,7 +26,6 @@
                 <td>{{ $album->id_album }}</td>
                 <td>{{ $album->nombre }}</td>
                 <td>{{ $album->cantidad }}</td>
-
                 <td>{{$album->duracion/60}}</td>
                 <td>{{ $album->fecha }}</td>
                 <td>{{ $album->artista }}</td>

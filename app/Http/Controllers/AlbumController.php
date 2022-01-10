@@ -57,9 +57,16 @@ class AlbumController extends Controller
             'imagen.required' => 'La imagen es requerida'
         ];
         $this->validate($request, $campos, $mensaje);
-        $datosAlbum = request()->except('_token', 'genero');
+        $datosAlbum = request()->except('_token', 'genero', 'select_question');
         $generoSencillo = request();
         $artistaSencillo = request();
+        $aux = $generoSencillo->select_question;
+        $array = [];
+        $contador = 0;
+        foreach ($aux as $auxiliar) {
+            $array[$contador] = $auxiliar;
+            $contador++;
+        }
 
         if ($request->hasFile('imagen')) {
             $datosAlbum['imagen'] = $request->file('imagen')->store('uploads', 'public');
@@ -67,12 +74,22 @@ class AlbumController extends Controller
 
         Album::insert($datosAlbum);
         $ultimoIndex = DB::getPdo()->lastInsertId();
-        DB::table('album_genero')->insert([
-            'nombreGenero' => $generoSencillo['genero'],
-            'idAlbum' => $ultimoIndex
-        ]);
+        // $idGenero = Genero::select('id_genero')->where('nombre', $generoSencillo['genero'])->get();
+
+        for ($i = 0; $i < sizeof($array); $i++) {
+            $idGenero = genero::select('id_genero')->where('nombre', $array[$i])->get();
+            DB::table('album_genero')->insert([
+                'idGenero' => $idGenero[0]['id_genero'],
+                'idAlbum' => $ultimoIndex
+            ]);
+        }
+        // DB::table('album_genero')->insert([
+        //     'idGenero' => $idGenero[0]['id_genero'],
+        //     'idAlbum' => $ultimoIndex
+        // ]);
+        $idArtista = Artista::select('id_artista')->where('nombre', $artistaSencillo['artista'])->get();
         DB::table('artista_album')->insert([
-            'nombreArtista' => $artistaSencillo['artista'],
+            'idArtista' => $idArtista[0]['id_artista'],
             'idAlbum' => $ultimoIndex
         ]);
         return redirect('album')->with('mensaje', 'Album agregado correctamente.');
@@ -100,8 +117,17 @@ class AlbumController extends Controller
         $album = album::findOrFail($id_album);
         $artistas = Artista::all();
         $generos = genero::all();
+        $album_generos = album_genero::all();
+        $generosRelacion = [];
+        $i = 0;
+        foreach ($album_generos as $album_genero) {
+            if ($album_genero['idAlbum'] == $id_album) {
+                $generosRelacion[$i] = $album_genero->idGenero;
+                $i++;
+            }
+        }
 
-        return view('album.edit', compact('album', 'artistas', 'generos'));
+        return view('album.edit', compact('album', 'artistas', 'generos', 'generosRelacion'));
     }
 
     /**
@@ -113,9 +139,16 @@ class AlbumController extends Controller
      */
     public function update(Request $request, $id_album)
     {
-        $datosAlbum = request()->except('_token', '_method');
-        $generoAlbum = request();
+        $datosAlbum = request()->except('_token', '_method', 'select_question');
+        $generoSencillo = request();
         $artistaSencillo = request();
+        $aux = $generoSencillo->select_question;
+        $array = [];
+        $contador = 0;
+        foreach ($aux as $auxiliar) {
+            $array[$contador] = $auxiliar;
+            $contador++;
+        }
 
         if ($request->hasFile('imagen')) {
             $album = album::findOrFail($id_album);
@@ -137,12 +170,18 @@ class AlbumController extends Controller
         ]);
         $ultimoIndex = DB::getPdo()->lastInsertId();
 
-        DB::table('album_genero')->insert([
-            'nombreGenero' => $generoAlbum['genero'],
-            'idAlbum' => $ultimoIndex
-        ]);
+
+        for ($i = 0; $i < sizeof($array); $i++) {
+            $idGenero = genero::select('id_genero')->where('nombre', $array[$i])->get();
+            DB::table('album_genero')->insert([
+                'idGenero' => $idGenero[0]['id_genero'],
+                'idAlbum' => $ultimoIndex
+            ]);
+        }
+
+        $idArtista = Artista::select('id_artista')->where('nombre', $artistaSencillo['artista'])->get();
         DB::table('artista_album')->insert([
-            'nombreArtista' => $artistaSencillo['artista'],
+            'idArtista' => $idArtista[0]['id_artista'],
             'idAlbum' => $ultimoIndex
         ]);
         // album::where('id_album', '=', $id_album)->update($datosAlbum);

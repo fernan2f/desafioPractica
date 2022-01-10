@@ -14,8 +14,8 @@ class CreateAlbumGeneroTable extends Migration
     public function up()
     {
         Schema::create('album_genero', function (Blueprint $table) {
-            $table->string('nombreGenero');
-            $table->foreign('nombreGenero')->references('nombre')->on('genero')->onDelete("cascade")->onUpdate("cascade");
+            $table->foreignId('idGenero');
+            $table->foreign('idGenero')->references('id_genero')->on('genero')->onDelete("cascade")->onUpdate("cascade");
 
             $table->foreignId('idAlbum');
             $table->foreign('idAlbum')->references('id_album')->on('album')->onDelete("cascade")->onUpdate("cascade");

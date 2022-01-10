@@ -24,15 +24,24 @@
 
             </select>
         </div>
-        <div class="mb-3">
-            <label class="form-label fw-bolder ">Género:</label>
-            <select class="form-select form-control bg-white" name="genero" required>
-                <option value="" disabled selected>Seleccione un género</option>
-                @foreach ($generos as $genero)
-                <option value="{{ $genero['nombre']}}" required>{{ $genero['nombre'] }}</option>
-                @endforeach
-            </select>
+
+        <h5>Género</h5>
+        @foreach($generos as $genero)
+        @if(in_array($genero['id_genero'],$generosRelacion))
+        <div class="form-check">
+            <input type="checkbox" checked class="form-check-input" name="select_question[{{ $genero->nombre }}]" id="counter_{{ $genero->nombre }}" value="{{$genero['nombre']}}">
+            <label class="form-check-label" for="">{{$genero['nombre']}}
+            </label>
         </div>
+        @else
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="select_question[{{ $genero->nombre }}]" id="counter_{{ $genero->nombre }}" value="{{$genero['nombre']}}">
+            <label class="form-check-label" for="">{{$genero['nombre']}}
+            </label>
+        </div>
+        @endif
+        @endforeach
+
         @include('sencillo.formulario',['modo'=>'Editar']);
 
     </form>

@@ -13,15 +13,15 @@
                 @endforeach
             </select>
         </div>
-        <div class="mb-3">
-            <label class="form-label fw-bolder ">Género:</label>
-            <select class="form-select form-control bg-white" name="genero" required>
-                <option value="" disabled selected>Seleccione el genero</option>
-                @foreach ($generos as $genero)
-                <option value="{{ $genero['nombre']}}" required>{{ $genero['nombre'] }}</option>
-                @endforeach
-            </select>
+        <h5>Género:</h5>
+        @foreach($generos as $genero)
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="select_question[{{ $genero->nombre }}]" id="counter_{{ $genero->nombre }}" value="{{$genero['nombre']}}">
+            <label class="form-check-label" for="">
+                {{$genero['nombre']}}
+            </label>
         </div>
+        @endforeach
         @include('album.formulario',['modo'=>'Crear']);
 
     </form>
