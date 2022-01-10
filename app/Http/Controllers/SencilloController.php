@@ -56,19 +56,28 @@ class SencilloController extends Controller
             'duracion' => 'required|integer|max:10000',
             'artista' => 'required|string|max:100',
             'imagen' => 'required|max:10000|mimes:jpeg,png,jpg'
+
+
         ];
         $mensaje = [
             'required' => 'El :attribute es requerido',
             'imagen.required' => 'La imagen es requerida'
         ];
 
+
         $this->validate($request, $campos, $mensaje);
         $generoSencillo = request();
+
+
 
         $datosSencillo = request()->except('_token', 'genero', 'select_question');
         $aux = $generoSencillo->select_question;
         $array = [];
         $contador = 0;
+        if ($aux == '') {
+            return redirect('sencillo/create');
+        }
+
         foreach ($aux as $auxiliar) {
             $array[$contador] = $auxiliar;
             $contador++;
@@ -140,6 +149,7 @@ class SencilloController extends Controller
         $generos = genero::all();
         $sencillo_generos = sencillo_genero::all();
         $generosRelacion = [];
+
         $i = 0;
         foreach ($sencillo_generos as $sencillo_genero) {
             if ($sencillo_genero['idSencillo'] == $id_sencillo) {
@@ -164,13 +174,15 @@ class SencilloController extends Controller
         $generoSencillo = request();
         $artistaSencillo = request();
         $aux = $generoSencillo->select_question;
+        if ($aux == '') {
+            return redirect('sencillo/' . $id_sencillo . '/edit');
+        }
         $array = [];
         $contador = 0;
         foreach ($aux as $auxiliar) {
             $array[$contador] = $auxiliar;
             $contador++;
         }
-
 
         // Sencillo::where('id_sencillo', '=', $id_sencillo)->update($datosSencillo);
         $sencilloActual = Sencillo::findOrFail($id_sencillo);
@@ -184,15 +196,6 @@ class SencilloController extends Controller
             ->decrement('cantidad', 1);
         sencillo::destroy($id_sencillo);
         sencillo_genero::destroy($id_sencillo);
-
-        // if ($request->hasFile('imagen')) {
-        //     $sencillo = Sencillo::findOrFail($id_sencillo);
-        //     Storage::delete('public/.$sencillo->imagen');
-        //     $datosSencillo['imagen'] = $request->file('imagen')->store('uploads', 'public');
-        // }
-        // Sencillo::insert($datosSencillo);
-
-
         DB::table('album')
             ->where('id_album', $datosSencillo['idAlbum'])
             ->increment('duracion', $datosSencillo['duracion']);

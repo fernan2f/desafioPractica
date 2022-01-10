@@ -10,12 +10,8 @@
             <div class="card-body">
                 <h5 class="card-title mb-4">{{$sencillo['titulo']}}</h5>
                 <p class="card-text">Artista : {{$sencillo['artista']}}</p>
-                @if((((int)(($sencillo['duracion']/60)))) >= 1)
-                <!-- {{$valor = (($sencillo['duracion']/60))-(((int)(($sencillo['duracion']/60))));}} -->
-                @else
-                <!-- {{$valor =(((($sencillo['duracion']/600))));}} -->
-                @endif
-                <p class="card-text">Duración : {{(int)($sencillo['duracion']/60)}} min {{(($valor * 100)%60)*10}} seg.</p>
+
+                <p class="card-text">Duración : {{gmdate("i:s",$sencillo['duracion'])}} seg.</p>
                 @foreach($sencillo_generos->where('idSencillo', 5) as $sencillo_genero)
                 <p class="card-text">Aparece en :{{$sencillo_genero['nombre']}}</p>
                 @endforeach
