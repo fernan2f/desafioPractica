@@ -12,7 +12,7 @@
             <tr>
                 <th>Id</th>
                 <th>Nombre</th>
-                <th>Cantidad</th>
+                <th>Canciones</th>
                 <th>Duracion</th>
                 <th>Fecha</th>
                 <th>Artista</th>

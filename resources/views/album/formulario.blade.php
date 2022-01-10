@@ -15,7 +15,7 @@
 
 <div class="mb-3">
     <label for="" class="form-label">Nombre</label>
-    <input type="text" class="form-control bg-white " name="nombre" id="nombre" aria-describedby="helpId" placeholder="" value="{{ isset($album->nombre)?$album->fecha:'' }}">
+    <input type="text" class="form-control bg-white " name="nombre" id="nombre" aria-describedby="helpId" placeholder="" value="{{ isset($album->nombre)?$album->nombre:'' }}">
 </div>
 <div class=" mb-3">
     <!-- <label for="" class="form-label">Cantidad</label> -->

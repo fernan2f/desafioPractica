@@ -66,7 +66,7 @@ class SencilloController extends Controller
         $this->validate($request, $campos, $mensaje);
         $datosSencillo = request()->except('_token', 'genero');
         $generoSencillo = request();
-        $artistaSencillo = request();
+        $artistaSencillo = request()->all();
         if ($request->hasFile('imagen')) {
             $datosSencillo['imagen'] = $request->file('imagen')->store('uploads', 'public');
         }
@@ -93,8 +93,8 @@ class SencilloController extends Controller
 
 
 
-        // return response()->json($datosSencillo);
-        return redirect('sencillo')->with('mensaje', 'Sencillo agregado correctamente.');
+        return response()->json($artistaSencillo);
+        // return redirect('sencillo')->with('mensaje', 'Sencillo agregado correctamente.');
     }
 
     /**

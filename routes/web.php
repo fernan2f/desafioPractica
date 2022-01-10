@@ -6,6 +6,7 @@ use App\Http\Controllers\ArtistaController;
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\GeneroController;
 use App\Http\Controllers\SencilloGeneroController;
+use App\Http\Controllers\LandingPageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,12 +34,13 @@ Route::resource('artista', ArtistaController::class);
 Route::resource('album', AlbumController::class);
 Route::resource('genero', GeneroController::class);
 Route::resource('sencillo_genero', SencilloGeneroController::class);
+Route::resource('landingPage', LandingPageController::class);
 //Crea todas las rutas automaticamente enlazandolas con las funciones que existen en el controlador
 //el ->->middleware('auth') no te deja entrar a nada relacionado a esta ruta si no estás logeado antes
 Auth::routes();
 
-Route::get('/home', [SencilloController::class, 'index'])->name('home');
+Route::get('/', [LandingPageController::class, 'index']);
 
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('/', [SencilloController::class, 'index'])->name('home');
-});
+// Route::group(['middleware' => 'auth'], function () {
+//     Route::get('/', [SencilloController::class, 'index'])->name('home');
+// });
