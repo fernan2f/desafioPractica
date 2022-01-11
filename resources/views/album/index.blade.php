@@ -22,6 +22,7 @@
                     <th>Nombre</th>
                     <th>Canciones</th>
                     <th>Duracion</th>
+                    <th>Visitas</th>
                     <th>Fecha</th>
                     <th>Artista</th>
                     <th>Imagen</th>
@@ -35,6 +36,7 @@
                         <td>{{ $album->nombre }}</td>
                         <td>{{ $album->cantidad }}</td>
                         <td>{{ gmdate('H:i:s', $album->duracion) }}</td>
+                        <td>{{ $album->visitas }}</td>
                         <td>{{ $album->fecha }}</td>
                         <td>{{ $album->artista }}</td>
                         <td>

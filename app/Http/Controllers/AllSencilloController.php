@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use App\Models\landingPage;
+use App\Models\allSencillo;
 use App\Models\sencillo;
-use App\Models\sencillo_genero;
 use App\Models\album;
 use Illuminate\Http\Request;
 
-class LandingPageController extends Controller
+class AllSencilloController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,12 +16,10 @@ class LandingPageController extends Controller
      */
     public function index()
     {
-        $sencillos = sencillo::all()->splice(0, 4);
-        $albumes = album::all()->splice(0, 4);
-        $sencillo_generos = sencillo_genero::all();
+        $sencillos = sencillo::all();
+        $albumes = album::all();
 
-
-        return view('LandingPage', compact('sencillos', 'sencillo_generos', 'albumes'));
+        return view('allSencillo', compact('sencillos', 'albumes'));
     }
 
     /**
@@ -50,10 +46,10 @@ class LandingPageController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\landingPage  $landingPage
+     * @param  \App\Models\allSencillo  $allSencillo
      * @return \Illuminate\Http\Response
      */
-    public function show(landingPage $landingPage)
+    public function show(allSencillo $allSencillo)
     {
         //
     }
@@ -61,10 +57,10 @@ class LandingPageController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\landingPage  $landingPage
+     * @param  \App\Models\allSencillo  $allSencillo
      * @return \Illuminate\Http\Response
      */
-    public function edit(landingPage $landingPage)
+    public function edit(allSencillo $allSencillo)
     {
         //
     }
@@ -73,10 +69,10 @@ class LandingPageController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\landingPage  $landingPage
+     * @param  \App\Models\allSencillo  $allSencillo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, landingPage $landingPage)
+    public function update(Request $request, allSencillo $allSencillo)
     {
         //
     }
@@ -84,10 +80,10 @@ class LandingPageController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\landingPage  $landingPage
+     * @param  \App\Models\allSencillo  $allSencillo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(landingPage $landingPage)
+    public function destroy(allSencillo $allSencillo)
     {
         //
     }

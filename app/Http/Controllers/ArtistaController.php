@@ -52,7 +52,7 @@ class ArtistaController extends Controller
         $this->validate($request, $campos, $mensaje);
         $datosArtista = request()->except('_token');
         if ($request->hasFile('imagen')) {
-            $datosArtista['imagen'] = $request->file('imagen')->store('uploads', 'public');
+            $datosArtista['imagen'] = base64_encode(file_get_contents($request->file('imagen')));
         }
         Artista::insert($datosArtista);
         return redirect('artista')->with('mensaje', 'Artista agregado correctamente.');
@@ -92,9 +92,7 @@ class ArtistaController extends Controller
     {
         $datosArtista = request()->except('_token', '_method');
         if ($request->hasFile('imagen')) {
-            $artista = artista::findOrFail($nombre);
-            Storage::delete('public/.$artista->imagen');
-            $datosArtista['imagen'] = $request->file('imagen')->store('uploads', 'public');
+            $datosArtista['imagen'] = base64_encode(file_get_contents($request->file('imagen')));
         }
         artista::where('nombre', '=', $nombre)->update($datosArtista);
 
@@ -112,11 +110,9 @@ class ArtistaController extends Controller
     public function destroy($nombre)
     {
 
-        $artista = artista::findOrFail($nombre);
 
-        if (Storage::delete('public/' . $artista->imagen)) {
-            artista::destroy($nombre);
-        }
+        artista::destroy($nombre);
+
         // artista::destroy($nombre);
 
         return redirect('artista')->with('mensaje', 'Artista eliminado correctamente.');

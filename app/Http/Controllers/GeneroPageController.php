@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use DB;
-use App\Models\landingPage;
-use App\Models\sencillo;
+use App\Models\generoPage;
 use App\Models\sencillo_genero;
-use App\Models\album;
+use App\Models\sencillo;
+use App\Models\genero;
 use Illuminate\Http\Request;
 
-class LandingPageController extends Controller
+class GeneroPageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,12 +18,7 @@ class LandingPageController extends Controller
      */
     public function index()
     {
-        $sencillos = sencillo::all()->splice(0, 4);
-        $albumes = album::all()->splice(0, 4);
-        $sencillo_generos = sencillo_genero::all();
-
-
-        return view('LandingPage', compact('sencillos', 'sencillo_generos', 'albumes'));
+        return view('generoPage');
     }
 
     /**
@@ -50,21 +45,41 @@ class LandingPageController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\landingPage  $landingPage
+     * @param  \App\Models\generoPage  $generoPage
      * @return \Illuminate\Http\Response
      */
-    public function show(landingPage $landingPage)
+    public function show($idGenero)
     {
-        //
+
+        $array = array();
+        $array2 = array();
+        $nombreGenero = '';
+        $sencillo_generos = sencillo_genero::all();
+        $generos = genero::all();
+        $sencillos = sencillo::all();
+        $i = 0;
+        foreach ($sencillo_generos as $datos) {
+            if ($datos->idGenero == $idGenero) {
+                $array[$i] = $datos->idSencillo;
+                $i++;
+            }
+        }
+        foreach ($generos as $genero) {
+            if ($genero['id_genero'] == $idGenero) {
+                $nombreGenero = $genero['nombre'];
+            }
+        }
+
+        return view('generoPage', compact('array', 'sencillos', 'nombreGenero'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\landingPage  $landingPage
+     * @param  \App\Models\generoPage  $generoPage
      * @return \Illuminate\Http\Response
      */
-    public function edit(landingPage $landingPage)
+    public function edit(generoPage $generoPage)
     {
         //
     }
@@ -73,10 +88,10 @@ class LandingPageController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\landingPage  $landingPage
+     * @param  \App\Models\generoPage  $generoPage
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, landingPage $landingPage)
+    public function update(Request $request, generoPage $generoPage)
     {
         //
     }
@@ -84,10 +99,10 @@ class LandingPageController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\landingPage  $landingPage
+     * @param  \App\Models\generoPage  $generoPage
      * @return \Illuminate\Http\Response
      */
-    public function destroy(landingPage $landingPage)
+    public function destroy(generoPage $generoPage)
     {
         //
     }

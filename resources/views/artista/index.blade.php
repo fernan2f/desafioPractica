@@ -31,7 +31,8 @@
                         <td>{{ $artista->oyentes }}</td>
                         <td>{{ $artista->seguidores }}</td>
                         <td>
-                            <img src="{{ asset('storage') . '/' . $artista->imagen }}" alt="" width="100">
+                            <img class="shadow" style="width:100px"
+                                src="data:image/jpeg;base64,{{ $artista['imagen'] }}">
 
                         </td>
                         <td>

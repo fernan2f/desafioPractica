@@ -18,6 +18,7 @@ class CreateAlbumTable extends Migration
             $table->string('nombre');
             $table->integer('cantidad');
             $table->integer('duracion');
+            $table->integer('visitas')->nullable();
             $table->date('fecha');
             $table->string('artista');
         });

@@ -7,6 +7,13 @@ use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\GeneroController;
 use App\Http\Controllers\SencilloGeneroController;
 use App\Http\Controllers\LandingPageController;
+use App\Http\Controllers\ArtistaPageController;
+use App\Http\Controllers\AlbumPageController;
+use App\Http\Controllers\GeneroPageController;
+use App\Http\Controllers\allArtistaController;
+use App\Http\Controllers\allAlbumController;
+use App\Http\Controllers\allSencilloController;
+use App\Http\Controllers\allGeneroController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +42,14 @@ Route::resource('album', AlbumController::class);
 Route::resource('genero', GeneroController::class);
 Route::resource('sencillo_genero', SencilloGeneroController::class);
 Route::resource('landingPage', LandingPageController::class);
+Route::resource('artistaPage', ArtistaPageController::class);
+Route::resource('albumPage', AlbumPageController::class);
+Route::resource('generoPage', GeneroPageController::class);
+Route::resource('allArtista', AllArtistaController::class);
+Route::resource('allAlbum', allAlbumController::class);
+Route::resource('allSencillo', allSencilloController::class);
+Route::resource('allGenero', allGeneroController::class);
+
 //Crea todas las rutas automaticamente enlazandolas con las funciones que existen en el controlador
 //el ->->middleware('auth') no te deja entrar a nada relacionado a esta ruta si no estás logeado antes
 Auth::routes();

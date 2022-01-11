@@ -57,16 +57,20 @@ class AlbumController extends Controller
             'imagen.required' => 'La imagen es requerida'
         ];
         $this->validate($request, $campos, $mensaje);
-        $datosAlbum = request()->except('_token', 'genero', 'select_question');
+        $datosAlbum = request()->except('_token', 'genero', 'select_question', 'visitas');
         $generoSencillo = request();
         $artistaSencillo = request();
         $aux = $generoSencillo->select_question;
         $array = [];
         $contador = 0;
+        if ($aux == '') {
+            return redirect('album/create');
+        }
         foreach ($aux as $auxiliar) {
             $array[$contador] = $auxiliar;
             $contador++;
         }
+
 
         if ($request->hasFile('imagen')) {
             $datosAlbum['imagen'] = base64_encode(file_get_contents($request->file('imagen')));
@@ -139,16 +143,20 @@ class AlbumController extends Controller
      */
     public function update(Request $request, $id_album)
     {
-        $datosAlbum = request()->except('_token', '_method', 'select_question');
+        $datosAlbum = request()->except('_token', '_method', 'select_question', 'visitas');
         $generoSencillo = request();
         $artistaSencillo = request();
         $aux = $generoSencillo->select_question;
         $array = [];
         $contador = 0;
+        if ($aux == '') {
+            return redirect('album/' . $id_album . '/edit');
+        }
         foreach ($aux as $auxiliar) {
             $array[$contador] = $auxiliar;
             $contador++;
         }
+
 
         $campos = [
             'nombre' => 'required|string|max:100',
@@ -211,11 +219,8 @@ class AlbumController extends Controller
      */
     public function destroy($id_album)
     {
-        $album = album::findOrFail($id_album);
+        album::destroy($id_album);
 
-        if (Storage::delete('public/' . $album->imagen)) {
-            album::destroy($id_album);
-        }
         // album_genero::destroy($id_album);
 
         return redirect('album')->with('mensaje', 'album eliminado correctamente.');

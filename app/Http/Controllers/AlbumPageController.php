@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use DB;
-use App\Models\landingPage;
+use App\Models\albumPage;
 use App\Models\sencillo;
-use App\Models\sencillo_genero;
 use App\Models\album;
 use Illuminate\Http\Request;
 
-class LandingPageController extends Controller
+class AlbumPageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,12 +17,7 @@ class LandingPageController extends Controller
      */
     public function index()
     {
-        $sencillos = sencillo::all()->splice(0, 4);
-        $albumes = album::all()->splice(0, 4);
-        $sencillo_generos = sencillo_genero::all();
-
-
-        return view('LandingPage', compact('sencillos', 'sencillo_generos', 'albumes'));
+        return view('albumPage');
     }
 
     /**
@@ -50,21 +44,26 @@ class LandingPageController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\landingPage  $landingPage
+     * @param  \App\Models\albumPage  $albumPage
      * @return \Illuminate\Http\Response
      */
-    public function show(landingPage $landingPage)
+    public function show($idAlbum)
     {
-        //
+        $sencillos = sencillo::all();
+        $albumes = album::all();
+        DB::table('album')
+            ->where('id_album', $idAlbum)
+            ->increment('visitas', 1);
+        return view('albumPage', compact('idAlbum', 'sencillos', 'albumes'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\landingPage  $landingPage
+     * @param  \App\Models\albumPage  $albumPage
      * @return \Illuminate\Http\Response
      */
-    public function edit(landingPage $landingPage)
+    public function edit(albumPage $albumPage)
     {
         //
     }
@@ -73,10 +72,10 @@ class LandingPageController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\landingPage  $landingPage
+     * @param  \App\Models\albumPage  $albumPage
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, landingPage $landingPage)
+    public function update(Request $request, albumPage $albumPage)
     {
         //
     }
@@ -84,10 +83,10 @@ class LandingPageController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\landingPage  $landingPage
+     * @param  \App\Models\albumPage  $albumPage
      * @return \Illuminate\Http\Response
      */
-    public function destroy(landingPage $landingPage)
+    public function destroy(albumPage $albumPage)
     {
         //
     }
