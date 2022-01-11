@@ -38,7 +38,9 @@
                         <td>{{ $album->fecha }}</td>
                         <td>{{ $album->artista }}</td>
                         <td>
-                            <img src="{{ asset('storage') . '/' . $album->imagen }}" alt="" width="100">
+                            <img class="shadow" style="width:100px"
+                                src="data:image/jpeg;base64,{{ $album['imagen'] }}">
+
 
                         </td>
                         <td>

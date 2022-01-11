@@ -69,7 +69,7 @@ class AlbumController extends Controller
         }
 
         if ($request->hasFile('imagen')) {
-            $datosAlbum['imagen'] = $request->file('imagen')->store('uploads', 'public');
+            $datosSencillo['imagen'] = base64_encode(file_get_contents($request->file('imagen')));
         }
 
         Album::insert($datosAlbum);
@@ -150,10 +150,22 @@ class AlbumController extends Controller
             $contador++;
         }
 
+        $campos = [
+            'nombre' => 'required|string|max:100',
+            'fecha' => 'required|date',
+            'duracion' => 'required|integer|max:10000',
+            'artista' => 'required|string|max:100',
+            'imagen' => 'required|max:10000|mimes:jpeg,png,jpg'
+
+
+        ];
+        $mensaje = [
+            'required' => 'El :attribute es requerido',
+            'imagen.required' => 'La imagen es requerida'
+        ];
+        $this->validate($request, $campos, $mensaje);
         if ($request->hasFile('imagen')) {
-            $album = album::findOrFail($id_album);
-            Storage::delete('public/.$album->imagen');
-            $datosAlbum['imagen'] = $request->file('imagen')->store('uploads', 'public');
+            $datosAlbum['imagen'] = base64_encode(file_get_contents($request->file('imagen')));
         }
         album::destroy($id_album);
         album_genero::destroy($id_album);

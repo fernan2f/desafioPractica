@@ -87,7 +87,7 @@ class SencilloController extends Controller
 
         $artistaSencillo = request()->all();
         if ($request->hasFile('imagen')) {
-            $datosSencillo['imagen'] = $request->file('imagen')->store('uploads', 'public');
+            $datosSencillo['imagen'] = base64_encode(file_get_contents($request->file('imagen')));
         }
 
         // $albumcito = DB::table('album')->increment('duracion', 1500)->where('id_album', $datosSencillo['idAlbum']);
@@ -170,6 +170,22 @@ class SencilloController extends Controller
      */
     public function update(Request $request, $id_sencillo)
     {
+        $campos = [
+            'titulo' => 'required|string|max:100',
+            'fecha' => 'required|date',
+            'duracion' => 'required|integer|max:10000',
+            'artista' => 'required|string|max:100',
+            'imagen' => 'required|max:10000|mimes:jpeg,png,jpg'
+
+
+        ];
+        $mensaje = [
+            'required' => 'El :attribute es requerido',
+            'imagen.required' => 'La imagen es requerida'
+        ];
+
+
+        $this->validate($request, $campos, $mensaje);
         $datosSencillo = request()->except('_token', '_method', 'genero');
         $generoSencillo = request();
         $artistaSencillo = request();
@@ -202,6 +218,11 @@ class SencilloController extends Controller
         DB::table('album')
             ->where('id_album', $datosSencillo['idAlbum'])
             ->increment('cantidad', 1);
+
+
+        if ($request->hasFile('imagen')) {
+            $datosSencillo['imagen'] = base64_encode(file_get_contents($request->file('imagen')));
+        }
 
         DB::table('sencillo')->insert([
             'id_sencillo' => $id_sencillo,

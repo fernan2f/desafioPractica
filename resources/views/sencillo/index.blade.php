@@ -43,7 +43,9 @@
                             @endforeach
                         </td>
                         <td>
-                            <img src="{{ asset('storage') . '/' . $sencillo->imagen }}" alt="" width="100">
+
+                            <img class="shadow" style="width:100px"
+                                src="data:image/jpeg;base64,{{ $sencillo['imagen'] }}">
                         </td>
                         <td>
                             <a href="{{ url('/sencillo/' . $sencillo->id_sencillo . '/edit') }}"

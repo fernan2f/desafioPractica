@@ -17,24 +17,24 @@
 <div class="mb-3">
     <label for="" class="form-label">Titulo</label>
     <input type="text" class="form-control bg-white" name="titulo" required id="titulo" aria-describedby="helpId"
-        placeholder="" value="{{ isset($sencillo->titulo) ? $sencillo->titulo : '' }}">
+        placeholder="" value="{{ isset($sencillo->titulo) ? $sencillo->titulo : old('titulo') }}">
 </div>
 <div class="mb-3">
     <label for="" class="form-label">Fecha</label>
     <input type="date" class="form-control bg-white " name="fecha" required id="fecha" aria-describedby="helpId"
-        placeholder="" value="{{ isset($sencillo->fecha) ? $sencillo->fecha : '' }}">
+        placeholder="" value="{{ isset($sencillo->fecha) ? $sencillo->fecha : old('fecha') }}">
 </div>
 <div class=" mb-3">
     <label for="" class="form-label">Duración (segundos) </label>
     <input type="text" class="form-control bg-white" name="duracion" required id="duracion" aria-describedby="helpId"
-        placeholder="" value="{{ isset($sencillo->duracion) ? $sencillo->duracion : '' }}">
+        placeholder="" value="{{ isset($sencillo->duracion) ? $sencillo->duracion : old('duracion') }}">
 </div>
 
 
 
 
 @if (isset($sencillo->imagen))
-    <img src="{{ asset('storage') . '/' . $sencillo->imagen }}" alt="" width="200" class="my-5">
+    <img class="shadow" style="width:100px" src="data:image/jpeg;base64,{{ $sencillo['imagen'] }}">
 @endif
 <input type="file" name="imagen" id="imagen" value="" class="btn btn-primary my-2"><br>
 <input type="submit" value="{{ $modo }} datos" class="btn btn-success">

@@ -39,8 +39,8 @@ Route::resource('landingPage', LandingPageController::class);
 //el ->->middleware('auth') no te deja entrar a nada relacionado a esta ruta si no estás logeado antes
 Auth::routes();
 
-Route::get('/', [LandingPageController::class, 'index']);
+Route::get('/home', [LandingPageController::class, 'index']);
 
-// Route::group(['middleware' => 'auth'], function () {
-//     Route::get('/', [SencilloController::class, 'index'])->name('home');
-// });
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/', [LandingPageController::class, 'index'])->name('home');
+});
