@@ -36,6 +36,9 @@
 @if (isset($sencillo->imagen))
     <img class="shadow" style="width:100px" src="data:image/jpeg;base64,{{ $sencillo['imagen'] }}">
 @endif
+<label for="" class="form-label">Imagen: </label><br>
 <input type="file" name="imagen" id="imagen" value="" class="btn btn-primary my-2"><br>
+<label for="" class="form-label">Canción: </label><br>
+<input type="file" name="audio" id="audio" value="" class="btn btn-primary my-2"><br>
 <input type="submit" value="{{ $modo }} datos" class="btn btn-success">
 <a href="{{ url('sencillo') }}" class="btn btn-secondary">Regresar</a>

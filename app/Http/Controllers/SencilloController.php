@@ -66,6 +66,7 @@ class SencilloController extends Controller
 
 
         $this->validate($request, $campos, $mensaje);
+
         $generoSencillo = request();
 
 
@@ -88,6 +89,9 @@ class SencilloController extends Controller
         $artistaSencillo = request()->all();
         if ($request->hasFile('imagen')) {
             $datosSencillo['imagen'] = base64_encode(file_get_contents($request->file('imagen')));
+        }
+        if ($request->hasFile('audio')) {
+            $datosSencillo['audio'] = base64_encode(file_get_contents($request->file('audio')));
         }
 
         // $albumcito = DB::table('album')->increment('duracion', 1500)->where('id_album', $datosSencillo['idAlbum']);
@@ -190,9 +194,11 @@ class SencilloController extends Controller
         $generoSencillo = request();
         $artistaSencillo = request();
         $aux = $generoSencillo->select_question;
+
         if ($aux == '') {
             return redirect('sencillo/' . $id_sencillo . '/edit');
         }
+
         $array = [];
         $contador = 0;
         foreach ($aux as $auxiliar) {
@@ -223,6 +229,9 @@ class SencilloController extends Controller
         if ($request->hasFile('imagen')) {
             $datosSencillo['imagen'] = base64_encode(file_get_contents($request->file('imagen')));
         }
+        if ($request->hasFile('audio')) {
+            $datosSencillo['audio'] = base64_encode(file_get_contents($request->file('audio')));
+        }
 
         DB::table('sencillo')->insert([
             'id_sencillo' => $id_sencillo,
@@ -231,7 +240,8 @@ class SencilloController extends Controller
             'duracion' => $datosSencillo['duracion'],
             'artista' => $datosSencillo['artista'],
             'idAlbum' => $datosSencillo['idAlbum'],
-            'imagen' => $datosSencillo['imagen']
+            'imagen' => $datosSencillo['imagen'],
+            'audio' => $datosSencillo['audio']
         ]);
         $lastIndex = DB::getPdo()->lastInsertId();
         for ($i = 0; $i < sizeof($array); $i++) {

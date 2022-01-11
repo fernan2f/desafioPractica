@@ -69,7 +69,7 @@ class AlbumController extends Controller
         }
 
         if ($request->hasFile('imagen')) {
-            $datosSencillo['imagen'] = base64_encode(file_get_contents($request->file('imagen')));
+            $datosAlbum['imagen'] = base64_encode(file_get_contents($request->file('imagen')));
         }
 
         Album::insert($datosAlbum);

@@ -20,8 +20,8 @@ class CreateAlbumTable extends Migration
             $table->integer('duracion');
             $table->date('fecha');
             $table->string('artista');
-            $table->binary('imagen');
         });
+        DB::statement("ALTER TABLE album ADD imagen LONGBLOB");
     }
 
     /**

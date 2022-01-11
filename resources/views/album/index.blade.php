@@ -40,8 +40,6 @@
                         <td>
                             <img class="shadow" style="width:100px"
                                 src="data:image/jpeg;base64,{{ $album['imagen'] }}">
-
-
                         </td>
                         <td>
                             <a href="{{ url('/album/' . $album->id_album . '/edit') }}"

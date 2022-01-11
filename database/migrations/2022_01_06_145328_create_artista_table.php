@@ -20,8 +20,8 @@ class CreateArtistaTable extends Migration
             $table->string('descripcion');
             $table->integer('oyentes')->nullable();
             $table->integer('seguidores')->nullable();
-            $table->binary('imagen');
         });
+        DB::statement("ALTER TABLE artista ADD imagen LONGBLOB");
     }
 
     /**

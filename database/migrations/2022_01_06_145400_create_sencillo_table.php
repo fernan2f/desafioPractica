@@ -22,8 +22,9 @@ class CreateSencilloTable extends Migration
             $table->string('artista');
             $table->foreignId('idAlbum')->nullable();
             $table->foreign('idAlbum')->references('id_album')->on('album')->onDelete("cascade")->onUpdate("cascade");
-            $table->binary('imagen');
         });
+        DB::statement("ALTER TABLE sencillo ADD audio LONGBLOB");
+        DB::statement("ALTER TABLE sencillo ADD imagen LONGBLOB");
     }
 
     /**

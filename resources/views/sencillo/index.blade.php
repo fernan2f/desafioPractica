@@ -22,7 +22,9 @@
                     <th>Duración</th>
                     <th>Artista</th>
                     <th>Album</th>
+                    <th>Canción</th>
                     <th>Imagen</th>
+
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -41,6 +43,10 @@
                                     {{ $album['nombre'] }}
                                 @endif
                             @endforeach
+                        </td>
+
+                        <td>
+                            <audio id="audio1" controls src="data:audio/mp3;base64,{{ $sencillo['audio'] }}"></audio>
                         </td>
                         <td>
 
