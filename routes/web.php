@@ -26,9 +26,7 @@ use App\Http\Controllers\allGeneroController;
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
-});
+
 
 // Route::get('/sencillo', function () {
 //     return view('sencillo.index');
@@ -36,10 +34,11 @@ Route::get('/', function () {
 
 // Route::get('/sencillo/create', [SencilloController::class, 'create']);
 
-Route::resource('sencillo', SencilloController::class);
-Route::resource('artista', ArtistaController::class);
-Route::resource('album', AlbumController::class);
-Route::resource('genero', GeneroController::class);
+Route::resource('sencillo', SencilloController::class)->middleware('auth');
+Route::resource('artista', ArtistaController::class)->middleware('auth');
+Route::resource('album', AlbumController::class)->middleware('auth');
+Route::resource('genero', GeneroController::class)->middleware('auth');
+
 Route::resource('sencillo_genero', SencilloGeneroController::class);
 Route::resource('landingPage', LandingPageController::class);
 Route::resource('artistaPage', ArtistaPageController::class);
@@ -55,7 +54,7 @@ Route::resource('allGenero', allGeneroController::class);
 Auth::routes();
 
 Route::get('/home', [LandingPageController::class, 'index']);
+Route::get('/', [LandingPageController::class, 'index'])->name('home');
 
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('/', [LandingPageController::class, 'index'])->name('home');
-});
+// Route::group(['middleware' => 'auth'], function () {
+// });
